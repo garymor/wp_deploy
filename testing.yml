@@ -1,0 +1,23 @@
+--- 
+- 
+  hosts: local
+  connection: local
+  name: wp_deploy_digitalocean
+  remote_user: root
+ 
+  vars-prompt:
+    - name: procced
+      prompt: "this will deploy lamp &wordpress on the server (y|n)"
+  
+-
+   meta: end_play
+   msg: "termnating....."
+   when: procced != "y"  
+   
+  tasks:
+  - name : install apache2  
+     
+
+  roles:
+     - wordpress
+ 

@@ -1,0 +1,57 @@
+--- 
+- 
+  connection: local
+  hosts: local
+  name: wp_deploy_digitalocean
+  remote_user: root
+  become: true
+  vars_prompt: 
+    - 
+      name: procced
+      prompt: "this will deploy lamp &wordpress on the server (y|n)"
+   
+  tasks: 
+    - name: tell user on progress
+      debug: msg="exiting..............." 
+      when: procced != 'y' 
+
+    - name: exitnode
+      meta: end_play 
+      when: procced != 'y'
+      
+    - name: install apache2
+      become: yes
+      apt:
+        name: apache2
+        state: present
+        
+    
+    - name: install phpndextension
+      become: yes
+      apt:
+        state: present 
+        pkg:
+          - php-curl
+          - php-gd
+          - php-mbstring
+          - php-xml
+          - php-xmlrpc
+          - php-soap
+          - php-intl
+          - php-zip
+  roles: 
+    - role: mariadb
+      when: procced == 'y'
+    - role: wordpress
+      when: procced == 'y'
+
+
+
+#  on finish you will need to :
+#1.0:  sudo mysql -u root -p
+
+#1.1: SET PASSWORD FOR 'name: wpuser6'@'localhost' = PASSWORD('password');
+
+#2: the update with nano /var/www/wordpress/wp-config.php the user and pass
+
+

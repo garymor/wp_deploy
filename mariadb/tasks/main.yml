@@ -1,0 +1,23 @@
+---
+#mariadb
+
+- name: install mariadb
+  become: yes
+  apt:
+    name: mariadb-server
+
+-  name: mysql user 
+   service:
+     name: mysql_secure_installation
+
+-  name: run maria server
+   service:
+     name: mariadb
+     state: started
+
+- name: install mariadb
+  become: yes
+  apt:
+    name: python-pymysql
+     
+     
