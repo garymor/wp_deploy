@@ -6,16 +6,12 @@
   apt:
     name: mariadb-server
 
--  name: mysql user 
-   service:
-     name: mysql_secure_installation
-
 -  name: run maria server
    service:
      name: mariadb
      state: started
 
-- name: install mariadb
+- name: install pymysql
   become: yes
   apt:
     name: python-pymysql

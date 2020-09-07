@@ -1,7 +1,6 @@
 --- 
 - 
-  connection: local
-  hosts: local
+  hosts: digitalocean
   name: wp_deploy_digitalocean
   remote_user: root
   become: true
@@ -10,7 +9,7 @@
       name: procced
       prompt: "this will deploy lamp &wordpress on the server (y|n)"
    
-  tasks: 
+  pre_tasks: 
     - name: tell user on progress
       debug: msg="exiting..............." 
       when: procced != 'y' 
@@ -39,6 +38,11 @@
           - php-soap
           - php-intl
           - php-zip
+          - php 
+          - libapache2-mod-php 
+          - php-mysql
+
+
   roles: 
     - role: mariadb
       when: procced == 'y'
@@ -47,11 +51,9 @@
 
 
 
-#  on finish you will need to :
-#1.0:  sudo mysql -u root -p
+#  on finish you will need to : do nthing.
 
-#1.1: SET PASSWORD FOR 'name: wpuser6'@'localhost' = PASSWORD('password');
 
-#2: the update with nano /var/www/wordpress/wp-config.php the user and pass
+#2: look in here for settings:   nano /var/www/wordpress/wp-config.php the user and pass
 
 

@@ -1,25 +1,25 @@
 ---
 # tasks file for wordpress
 
-- name: create db for wp
-  mysql_db:
-    login_user: root
-    login_password: ""
-    login_unix_socket: /var/run/mysqld/mysqld.sock #makes an error without it
-    name: wordpress2
-    state: present 
-    collation: utf8_general_ci
-
--  name: mysql user 
+-  name: mysql_user 
    become: true
    mysql_user: 
-    login_user: root
+    login_user: "root"
+    login_password: ""
     login_unix_socket: /var/run/mysqld/mysqld.sock 
     name: wpuser
     password: password
     priv: '*.*:ALL'
     state: present 
-    
+
+- name: create db for wp
+  mysql_db:
+    login_user: wpuser
+    login_password: "{{ mysql_root_password  }}"
+    # login_unix_socket: /var/run/mysqld/mysqld.sock #makes an error without it
+    name: wordpress
+    state: present 
+    collation: utf8_general_ci   
 
 -  name: download wp.tar
    get_url:
